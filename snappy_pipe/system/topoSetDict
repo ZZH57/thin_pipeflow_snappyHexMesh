@@ -22,7 +22,32 @@ actions
         type    faceSet;
         action  new;
         source  patchToFace;
-        snappy_pipe;
+        sourceInfo
+        {
+        name snappy_pipe; //所有的面
+        }
+    }
+
+    {
+        name    bottom_patch_negative;
+        type    faceSet;
+        action  new;
+        source  boxToFace;
+        sourceInfo
+        {
+         box (-0.1 -0.1 0.01) (1.1 1.1 41); //除了底面以外的面
+        }
+    }
+
+    {
+        name    top_patch_negative;
+        type    faceSet;
+        action  new;
+        source  boxToFace;
+        sourceInfo
+        {
+         box (-0.1 -0.1 -1) (1.1 1.1 39.99); //除了顶面以外的面
+        }
     }
 
 );

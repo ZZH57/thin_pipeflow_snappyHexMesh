@@ -1,0 +1,134 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM: The Open Source CFD Toolbox           |
+|  \\    /   O peration     | Version:  v2012                                 |
+|   \\  /    A nd           | Website:  www.openfoam.com                      |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+    version     2.0;
+    format      ascii;
+    class       dictionary;
+    object      topoSetDict;
+}
+
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+actions
+(
+    {
+        name    snappy_pipe;
+        type    faceSet;
+        action  new;
+        source  patchToFace;
+        sourceInfo
+        {
+        name snappy_pipe; //所有的面
+        }
+    }
+
+    {
+        name    bottom_patch_negative;
+        type    faceSet;
+        action  new;
+        source  boxToFace;
+        sourceInfo
+        {
+         box (-0.1 -0.1 0.01) (1.1 1.1 41); //除了底面以外的面
+        }
+    }
+
+    {
+        name    top_patch_negative;
+        type    faceSet;
+        action  new;
+        source  boxToFace;
+        sourceInfo
+        {
+         box (-0.1 -0.1 -1) (1.1 1.1 39.99); //除了顶面以外的面
+        }
+    }
+
+//NEW FACESET No.1获得底面
+    {
+        name    bottomPatch;
+        type    faceSet;
+        action  new;
+        source  faceToFace;
+        sourceInfo
+        {
+        set snappy_pipe;//取出所有的面
+        }
+     }
+
+      {
+        name    bottomPatch;
+        type    faceSet;
+        action  delete;
+        source  faceToFace;
+        sourceInfo
+        {
+        set bottom_patch_negative;//减去除底面以外的所有面
+        }
+    }
+
+//NEW FACESET No.2获得顶面
+    {
+        name    topPatch;
+        type    faceSet;
+        action  new;
+        source  faceToFace;
+        sourceInfo
+        {
+        set snappy_pipe;//取出所有面
+        }
+     }
+
+      {
+        name    topPatch;
+        type    faceSet;
+        action  delete;
+        source  faceToFace;
+        sourceInfo
+        {
+        set top_patch_negative;//减去除顶面以外的所有面
+        }
+    }
+
+//NEW FACESET No.3获得侧面
+    {
+        name    Wall;
+        type    faceSet;
+        action  new;
+        source  faceToFace;
+        sourceInfo
+        {
+        set snappy_pipe;//取出所有面
+        }
+     }
+
+      {
+        name    Wall;
+        type    faceSet;
+        action  delete;
+        source  faceToFace;
+        sourceInfo
+        {
+        set topPatch;//减去顶面
+        }
+    }
+
+      {
+        name    Wall;
+        type    faceSet;
+        action  delete;
+        source  faceToFace;
+        sourceInfo
+        {
+        set bottomPatch;//减去底面
+        }
+    }
+);
+
+// ************************************************************************* //

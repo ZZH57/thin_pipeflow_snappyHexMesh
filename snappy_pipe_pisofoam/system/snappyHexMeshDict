@@ -112,7 +112,7 @@ castellatedMeshControls
         snappy_pipe
         {
             // Surface-wise min and max refinement level
-            level (2 5);
+            level (3 5);
         }
     }
 
@@ -135,12 +135,18 @@ castellatedMeshControls
 
     refinementRegions
     {
-        //refinementBox
-        //{
-            //mode inside;
-            //levels ((1E15 5));
-        //}
+        /*topPatchBox
+        {
+         mode inside;
+         levels((1.0 3));
+        }
+        bottomPatchBox
+        {
+         mode inside;
+         level((1.0 3));
+        }*/
     }
+  
 
 
     // Mesh selection
